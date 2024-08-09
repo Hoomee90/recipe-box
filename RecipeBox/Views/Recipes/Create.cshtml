@@ -21,6 +21,9 @@
 
   @Html.LabelFor(model => model.Instructions);
   @Html.TextAreaFor(model => model.Instructions, 3, 24, null);
+
+  @Html.LabelFor(model => model.Rating);
+  @Html.TextBoxFor(model => model.Rating, new { @type = "number" });
   
   <input type="submit" value="Add new recipe">
 }
