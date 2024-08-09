@@ -17,7 +17,7 @@
   <ul>
     @foreach (Recipe recipe in ViewBag.items)
     {
-      <li>@Html.ActionLink(@recipe.Name.ToString(), "Details", "Items", new { id = @recipe.Name })</li>
+      <li>@Html.ActionLink(@recipe.Name.ToString(), "Details", "Recipes", new { id = @recipe.RecipeId })</li>
     }
   </ul>
 }
