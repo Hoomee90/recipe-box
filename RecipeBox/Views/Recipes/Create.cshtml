@@ -1,0 +1,28 @@
+@{
+  Layout = "_Layout";
+}
+
+@model RecipeBox.Models.Recipe
+
+<h4>Create Recipe</h4>
+
+@if(!ViewData.ModelState.IsValid) 
+{
+  @Html.ValidationSummary("Please fix the following error(s) and then resubmit the form:") 
+}
+
+@using (Html.BeginForm())
+{
+  @Html.LabelFor(model => model.Name);
+  @Html.TextBoxFor(model => model.Name);
+
+  @Html.LabelFor(model => model.Ingredients);
+  @Html.TextBoxFor(model => model.Ingredients);
+
+  @Html.LabelFor(model => model.Instructions);
+  @Html.TextAreaFor(model => model.Instructions, 3, 24, null);
+  
+  <input type="submit" value="Add new recipe">
+}
+
+<p>@Html.ActionLink("Back to recipe list", "Index")</p>
