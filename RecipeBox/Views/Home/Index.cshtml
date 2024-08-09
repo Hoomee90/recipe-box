@@ -9,7 +9,7 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-  <h4>@User.Identity.Name's Recipes</h4>
+  <h4>@User.Identity.Name's Recipe Box</h4>
   @if (ViewBag.items.Count == 0)
   {
     <p>No recipes have been added yet!</p>
