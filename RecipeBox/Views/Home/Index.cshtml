@@ -1,0 +1,31 @@
+@{
+  Layout = "_Layout";
+}
+
+@using RecipeBox.Models;
+
+<h1>Welcome to Recipe Box</h1>
+
+@if (User.Identity.IsAuthenticated)
+{
+  <h4>@User.Identity.Name's Recipes</h4>
+  @if (ViewBag.items.Count == 0)
+  {
+    <p>No recipes have been added yet!</p>
+  } 
+  <ul>
+    @foreach (Recipe recipe in ViewBag.items)
+    {
+      <li>@Html.ActionLink(@recipe.Name.ToString(), "Details", "Items", new { id = @recipe.Name })</li>
+    }
+  </ul>
+}
+else
+{
+  <h4>Items</h4>
+  <p>Please @Html.ActionLink("log in", "LogIn", "Account") to view or manage your items.</p>
+}
+
+<p>@Html.ActionLink("Manage recipes", "Index", "Recipes")</p>
+<p>@Html.ActionLink("Manage tags", "Index", "Tags")</p>
+<p>@Html.ActionLink("Create or manage an account", "Index", "Account")</p>
