@@ -5,6 +5,7 @@
 @using RecipeBox.Models;
 
 <h1>Welcome to Recipe Box</h1>
+<hr>
 
 @if (User.Identity.IsAuthenticated)
 {
@@ -22,8 +23,8 @@
 }
 else
 {
-  <h4>Items</h4>
-  <p>Please @Html.ActionLink("log in", "LogIn", "Account") to view or manage your items.</p>
+  <h4>Recipes</h4>
+  <p>Please @Html.ActionLink("log in", "LogIn", "Account") to view or manage your recipes.</p>
 }
 
 <p>@Html.ActionLink("Manage recipes", "Index", "Recipes")</p>
