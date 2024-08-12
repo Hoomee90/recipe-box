@@ -26,10 +26,7 @@ else
     }
   </ul>
 }
-@if (Model.Rating != 0)
-{
-  <p>@Html.DisplayFor(model => model.Rating)/10</p>
-}
+<p>@Html.DisplayNameFor(model => model.Rating): @Html.DisplayFor(model => model.Rating)/10</p>
 <p>@Html.DisplayNameFor(model => model.Ingredients): @Html.DisplayFor(model => model.Ingredients)</p>
 <p>@Html.DisplayNameFor(model => model.Instructions): @Html.DisplayFor(model => model.Instructions)</p>
 

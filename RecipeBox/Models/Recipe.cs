@@ -12,7 +12,7 @@ namespace RecipeBox.Models
 		public string Ingredients { get; set; }
 		[Required(ErrorMessage = "the recipe requires instructions")]
 		public string Instructions { get; set; }
-		[RegularExpression("^([0-9]|(10)|\\s)$", ErrorMessage = "Your rating must be an integer 1 to 10, or 0 to leave unrated")]
+		[RegularExpression("^([0-9]|(10)|\\s)$", ErrorMessage = "Your rating must be an integer 1 to 10")]
 		public int Rating { get; set; }
 		public List<RecipeTag> JoinEntities { get; }
 		public ApplicationUser User { get; set; }
