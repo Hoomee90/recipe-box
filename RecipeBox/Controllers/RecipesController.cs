@@ -22,7 +22,7 @@ namespace RecipeBox.Controllers
 			_db = db;
 		}
 		
-		public async Task<ActionResult> Index(string sort)
+		public async Task<ActionResult> Index(string sort, string searchString)
 		{
 			ViewBag.NameSortParm = string.IsNullOrEmpty(sort) ? "name_desc" : "";
 			ViewBag.RatingSortParm = sort == "rating" ? "rating_desc" : "rating";
@@ -30,21 +30,26 @@ namespace RecipeBox.Controllers
 			string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 			ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
 			var userRecipes = from r in _db.Recipes.Where(entry => entry.User.Id == currentUser.Id)
-																select r;
+												select r;
+			if (!string.IsNullOrEmpty(searchString))
+			{
+        userRecipes = userRecipes.Where(r => r.Name.Contains(searchString)
+															|| r.Ingredients.Contains(searchString));
+			}
 			switch (sort)
 			{
 				case "name_desc":
-        userRecipes = userRecipes.OrderByDescending(r => r.Name);
-        break;
-      case "rating":
-        userRecipes = userRecipes.OrderBy(r => r.Rating);
-        break;
-      case "rating_desc":
-        userRecipes = userRecipes.OrderByDescending(r => r.Rating);
-        break;
-      default:
-        userRecipes = userRecipes.OrderBy(r => r.Name);
-        break;
+				userRecipes = userRecipes.OrderByDescending(r => r.Name);
+				break;
+			case "rating":
+				userRecipes = userRecipes.OrderBy(r => r.Rating);
+				break;
+			case "rating_desc":
+				userRecipes = userRecipes.OrderByDescending(r => r.Rating);
+				break;
+			default:
+				userRecipes = userRecipes.OrderBy(r => r.Name);
+				break;
 			}
 
 			return View(userRecipes.ToList());
