@@ -22,16 +22,16 @@ namespace RecipeBox.Controllers
 			_db = db;
 		}
 		
-		public async Task<ActionResult> Index(string sortOrder)
+		public async Task<ActionResult> Index(string sort)
 		{
-			ViewBag.NameSortParm = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-			ViewBag.RatingSortParm = sortOrder == "rating" ? "rating_desc" : "rating";
+			ViewBag.NameSortParm = string.IsNullOrEmpty(sort) ? "name_desc" : "";
+			ViewBag.RatingSortParm = sort == "rating" ? "rating_desc" : "rating";
 			
 			string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 			ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
 			var userRecipes = from r in _db.Recipes.Where(entry => entry.User.Id == currentUser.Id)
 																select r;
-			switch (sortOrder)
+			switch (sort)
 			{
 				case "name_desc":
         userRecipes = userRecipes.OrderByDescending(r => r.Name);
