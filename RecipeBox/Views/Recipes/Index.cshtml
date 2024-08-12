@@ -14,12 +14,46 @@
 }
 else
 {
-  <ul>
-  @foreach (Recipe recipe in Model)
-  {
-    <li>@Html.ActionLink($"{recipe.Name}", "Details", new { id = recipe.RecipeId })</li>
-  }
-  </ul>
+  <div class="table-responsive">
+    <table class="table">
+      <thread>
+        <tr>
+        <th>
+          @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm })
+        </th>
+        <th>
+          @Html.ActionLink("Rating", "Index", new { sortOrder = ViewBag.RatingSortParm })
+        </th>
+        <th class="ms-1">
+          Ingredients
+        </th>
+        <th></th>
+      </tr>
+      </thread>
+      
+      <tbody>
+        @foreach (Recipe recipe in Model)
+        {
+        <tr>
+          <td>
+            @Html.DisplayFor(modelItem => recipe.Name)
+          </td>
+          <td>
+            @Html.DisplayFor(modelItem => recipe.Rating)/10
+          </td>
+          <td>
+            @Html.DisplayFor(modelItem => recipe.Ingredients)
+          </td>
+          <td>
+            @Html.ActionLink("Edit", "Edit", new { id= recipe.RecipeId }) |
+            @Html.ActionLink("Details", "Details", new { id= recipe.RecipeId }) |
+            @Html.ActionLink("Delete", "Delete", new { id= recipe.RecipeId })
+          </td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 }
 
 <p>@Html.ActionLink("Add new recipe", "Create")</p>

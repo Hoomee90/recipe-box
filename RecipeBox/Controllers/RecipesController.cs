@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using RecipeBox.Models;
-using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -23,14 +22,32 @@ namespace RecipeBox.Controllers
 			_db = db;
 		}
 		
-		public async Task<ActionResult> Index()
+		public async Task<ActionResult> Index(string sortOrder)
 		{
+			ViewBag.NameSortParm = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+			ViewBag.RatingSortParm = sortOrder == "rating" ? "rating_desc" : "rating";
+			
 			string userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 			ApplicationUser currentUser = await _userManager.FindByIdAsync(userId);
-			List<Recipe> userRecipes = _db.Recipes
-				.Where(entry => entry.User.Id == currentUser.Id)
-				.ToList();
-			return View(userRecipes);
+			var userRecipes = from r in _db.Recipes.Where(entry => entry.User.Id == currentUser.Id)
+																select r;
+			switch (sortOrder)
+			{
+				case "name_desc":
+        userRecipes = userRecipes.OrderByDescending(r => r.Name);
+        break;
+      case "rating":
+        userRecipes = userRecipes.OrderBy(r => r.Rating);
+        break;
+      case "rating_desc":
+        userRecipes = userRecipes.OrderByDescending(r => r.Rating);
+        break;
+      default:
+        userRecipes = userRecipes.OrderBy(r => r.Name);
+        break;
+			}
+
+			return View(userRecipes.ToList());
 		}
 		
 		public ActionResult Create()
